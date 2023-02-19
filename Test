@@ -1,0 +1,77 @@
+#include "graphics.h"
+using namespace std;
+#include <iostream>
+#pragma comment(lib,"graphics.lib")
+#include <string>
+#include <cstring>
+
+char* concatenate(char arr[], string str) {
+    int len = strlen(arr);
+    string result(arr, len);
+    result += str;
+
+    size_t size = result.size();
+    char* new_arr = new char[size + 1];
+    std::memcpy(new_arr, result.c_str(), size + 1);
+    return new_arr;
+}
+int main()
+{
+    // Initialize graphics window
+    initwindow(500, 500);
+    int gd = DETECT, gm;
+    char path_bgi[] = "c:\\tc\\bgi";
+    initgraph(&gd, &gm, path_bgi);
+
+    // Define table dimensions and properties
+    int cell_width = 100;
+    int cell_height = 50;
+    int column_count = 4;
+    int row_count = 5;
+    int header_height = 50;
+
+    // Define font properties
+    int font_face = 0; // Default font
+    int font_style = 0; // Normal style
+    int font_size = 2; // Medium size
+
+    // Draw header row
+    setfillstyle(SOLID_FILL, YELLOW);
+    bar(0, 0, cell_width * column_count, header_height);
+    settextstyle(font_face, font_style, font_size);
+    setcolor(BLACK);
+    char a[] = "H";
+    char tes[] = "Mã Sinh Viên";
+    char lop[] = "Lớp", monhoc[] = "Môn Học", dtb[] = "Điểm Trung Bình";
+    char SV[] = "SV", math[] = "Toán", number[] = "8.5";
+    outtextxy(cell_width / 2, header_height / 2 - textheight(a) / 2, tes);
+    outtextxy(cell_width * 3 / 2, header_height / 2 - textheight(a) / 2, lop);
+    outtextxy(cell_width * 5 / 2, header_height / 2 - textheight(a) / 2, monhoc);
+    outtextxy(cell_width * 7 / 2, header_height / 2 - textheight(a) / 2, dtb);
+
+    // Draw data rows
+    for (int i = 0; i < row_count; i++)
+    {
+        // Draw background cells
+        setfillstyle(SOLID_FILL, WHITE);
+        bar(0, header_height + cell_height * i, cell_width * column_count, header_height + cell_height * (i + 1));
+
+        // Draw data text
+        setcolor(BLACK);
+        settextstyle(font_face, font_style, font_size);
+        
+        char a2[] = "SV";// +std::to_string(i + 1);;
+        string s1 = to_string(i + 1);
+        char *a3 = concatenate(SV, s1);
+        outtextxy(cell_width / 2, header_height + cell_height * i + cell_height / 2 - textheight(a) / 2, SV);
+        outtextxy(cell_width * 3 / 2, header_height + cell_height * i + cell_height / 2 - textheight(a) / 2, lop);
+        outtextxy(cell_width * 5 / 2, header_height + cell_height * i + cell_height / 2 - textheight(a) / 2, math);
+        outtextxy(cell_width * 7 / 2, header_height + cell_height * i + cell_height / 2 - textheight(a) / 2, number);
+    }
+
+    // Wait for user input before closing graphics window
+    getch();
+    closegraph();
+
+    return 0;
+}
